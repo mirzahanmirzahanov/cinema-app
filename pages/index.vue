@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <hero />
+    <hero/>
     <div class="container search">
       <input 
         type="text" 
@@ -16,7 +16,8 @@
         Clear Search
       </button>
     </div>
-    <div class="container movies">
+    <loading v-if="$fetchState.pending"/>
+    <div v-else class="container movies">
       <!-- searched movies -->
       <div v-if="searchInput !== '' " id="movie-grid" class="movies-grid"
       >
@@ -126,7 +127,8 @@ export default {
     }
     await this.searchMovies()
   },
-  methods: {
+  // fetchDelay: 1000,
+  methods: {  
     async getMovies() {
       const data = axios.get(
         'https://api.themoviedb.org/3/movie/now_playing?api_key=56744e1a7026891464b1b3f169387682&language=en-US&page=1'
@@ -138,6 +140,7 @@ export default {
       })
     },
     async searchMovies() {
+      this.searchedMovies = []
       const data = axios.get(
         `https://api.themoviedb.org/3/search/movie?api_key=56744e1a7026891464b1b3f169387682&language=en-US&page=1&query=${this.searchInput}`
       )
