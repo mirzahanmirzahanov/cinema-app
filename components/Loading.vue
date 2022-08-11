@@ -28,7 +28,6 @@ methods: {}
 
   @keyframes circle-loading {
     to {
-      // transform: rotateX(360deg);
       transform: rotateZ(360deg);
     }
   }
