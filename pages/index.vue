@@ -115,6 +115,23 @@ export default {
   name: 'IndexPage',
   computed: {},
   props: {},
+  head() {
+    return {
+      title: 'Move App - Latest Streaming Movie info',
+      meta: [
+        {
+          hid: 'desc',
+          name: 'description',
+          content: 'Get all the latest streaming movies in theaters & online'
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'movies, stream, streaming'
+        }
+      ]
+    }
+  },
   data: () => ({
     movies: [],
     searchedMovies:[],
@@ -127,7 +144,7 @@ export default {
     }
     await this.searchMovies()
   },
-  // fetchDelay: 1000,
+  fetchDelay: 1200,
   methods: {  
     async getMovies() {
       const data = axios.get(
@@ -262,3 +279,4 @@ export default {
   }
 }
 </style>
+

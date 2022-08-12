@@ -54,8 +54,13 @@ export default {
   name: 'single-movie',
   computed: {},
   props: {},
+  head() {
+    return {
+      title: this.movie.title
+    }
+  },
   data: () => ({
-    movie: null,
+    movie: '',
   }),
   async fetch() {
     await this.getSingleMovie()
