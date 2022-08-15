@@ -108,12 +108,18 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
+
 
 export default {
   components: {},
   name: 'IndexPage',
-  computed: {},
+  computed: {
+    ...mapGetters({
+      movies:'movies/MOVIES',
+      searchedMovies:'movies/SEARCHED_MOVIES'
+  })
+  },
   props: {},
   head() {
     return {
@@ -133,8 +139,6 @@ export default {
     }
   },
   data: () => ({
-    movies: [],
-    searchedMovies:[],
     searchInput: ''
   }),
   async fetch() {
@@ -142,34 +146,16 @@ export default {
       await this.getMovies()
       return
     }
-    await this.searchMovies()
+    await this.searchMovies(this.searchInput)
   },
   fetchDelay: 1200,
-  methods: {  
-    async getMovies() {
-      const data = axios.get(
-        'https://api.themoviedb.org/3/movie/now_playing?api_key=56744e1a7026891464b1b3f169387682&language=en-US&page=1'
-      )
-      const result = await data
-
-      result.data.results.forEach((movie) => {
-        this.movies.push(movie)
-      })
-    },
-    async searchMovies() {
-      this.searchedMovies = []
-      const data = axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=56744e1a7026891464b1b3f169387682&language=en-US&page=1&query=${this.searchInput}`
-      )
-      const result = await data
-
-      result.data.results.forEach((movie) => {
-        this.searchedMovies.push(movie)
-      })
-    },
+  methods: { 
+    ...mapActions({
+      getMovies:'movies/GET_MOVIES',
+      searchMovies: 'movies/SEARCH_MOVIES'
+    }),
     clearSearch() {
       this.searchInput = ''
-      this.searchedMovies = []
     }
   },
 }
